@@ -7,7 +7,7 @@ def open_db():
             host='127.0.0.1',
             port='3306',
             user='root',
-            password='root',
+            password='UCH1H4_N1GHTabcd',
             database="groups_po"
         )
         return conn
@@ -21,7 +21,7 @@ def create_group(group_name):
         return
 
     try:
-        cursor = conn.cursor()
+        cursor = conn.cursor(buffered=True)
 
         # Générer les fragments
         caracteres = list("qwertzuiopasdfghjklyxcvbnm")
@@ -62,7 +62,7 @@ def create_group(group_name):
 def read_data():
     conn = open_db()
 
-    cursor = conn.cursor()
+    cursor = conn.cursor(buffered=True)
 
     sql = "SELECT * FROM `groups`"
     cursor.execute(sql)
@@ -70,7 +70,7 @@ def read_data():
 
 def identification(identity):
     conn = open_db()
-    cursor = conn.cursor()
+    cursor = conn.cursor(buffered=True)
     sql = "SELECT id FROM `groups` WHERE `group_name` = %s"
     cursor.execute(sql, (identity,))
     result = cursor.fetchone()
@@ -81,7 +81,7 @@ def identification(identity):
 
 def recuperation_frag(groupe_id, fragment):
     conn = open_db()
-    cursor = conn.cursor()
+    cursor = conn.cursor(buffered=True)
 
     sql = f"SELECT frag FROM {fragment} WHERE id_group = %s"
     cursor.execute(sql, (groupe_id,))
@@ -111,4 +111,15 @@ def new_score(groupe_id, score):
     cursor.close()
     conn.close()
     return result[0] if result else None
+
+def get_all_group_names():
+    conn = open_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT name FROM groups")
+    results = cursor.fetchall()  # → [("Team A",), ("Team B",), ...]
+    conn.close()
+    # On transforme en liste simple
+    return [row[0] for row in results]
+
+
 

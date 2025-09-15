@@ -7,7 +7,7 @@ from Admin.gestionsql import recuperation_frag,identification
 import variable
 
 class ChronoQuizGame:
-    def __init__(self, parent_frame, generated_words=None, group_score=None):
+    def __init__(self, parent_frame, generated_words=None, group_score=None,stop_callback=None):
         self.parent = parent_frame
         self.canvas = None
         self.zones = []
@@ -17,6 +17,7 @@ class ChronoQuizGame:
         self.generated_words = generated_words
         self.word_label = tk.Label(self.parent, text="", font=("Arial", 16, "italic"), fg="green", bg="white")
         self.group_score = group_score
+        self.stop_callback = stop_callback
 
     # Données du quiz
     dates = [1936,1956,1981, 1991, 2007, "Actuellement"]
@@ -188,12 +189,12 @@ class ChronoQuizGame:
             if self.generated_words and len(self.generated_words) > 1:
                 code = recuperation_frag(variable.selected_group_id, "fragment2")
                 messagebox.showinfo("Code", f"Voici le 2 ème code de l'énigme : {code}")
+            if self.stop_callback:
+                self.stop_callback()
         else:
             messagebox.showwarning("Erreur", "Certaines réponses sont incorrectes.")
             self.word_label.config(text="")  # Cacher si mauvaise réponse
-            if self.group_score:
-                self.group_score.set(self.group_score.get() - 100)# Soustraire 100 points par essai
-                print(self.group_score)
+         # **Appel du callback pour arrêter le score descendant**
 
     #Fonction pour recommencer le quiz et remet les widgets à leur place initiale
     def recommencer(self):

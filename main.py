@@ -15,7 +15,7 @@ from Escape.Enigme.codes import main as get_generated_words
 import os
 import importlib.util
 import sys
-from Admin.gestionsql import identification, create_group
+from Admin.gestionsql import identification, create_group,get_all_group_names
 from Escape.scoreboard import show_scoreboard
 import variable
 class ScriptLauncherApp:
@@ -28,7 +28,7 @@ class ScriptLauncherApp:
         # Préparation pour le lancement des fichiers indépendants
         self.scripts = {
             "IT Quiz": {
-                "module_path": os.path.join(self.base_dir, "Escape", "IT_quiz", "IT_quiz.py"),
+                "module_path": os.path.join(self.base_dir, "Escape", "IT_quiz", "It_quiz.py"),
                 "image_path": os.path.join(self.base_dir, "images", "itquiz.jpg")
             },
             "ChronoQuiz": {
@@ -48,62 +48,70 @@ class ScriptLauncherApp:
         self.loaded_images = {}
         self.games_instances = {}
         self.current_game_key = None
-
-        # Génère une seule fois le code aléatoire pour toute la session
+        self.start_score = 1000
+        self.score_var = tk.IntVar(value=self.start_score)
+        self.score_job = None
+        self.group_score = self.score_var  # pour passer facilement aux jeux
         self.generated_code = get_generated_words()
+
+        # Suivi des succès de chaque jeu
+        self.games_success = {
+            "IT Quiz": False,
+            "ChronoQuiz": False,
+            "Puzzle": False
+        }
 
         self.create_interface()
 
         self.root.bind("<Escape>", lambda e: self.root.attributes("-fullscreen", False))
 
         # Initialise le score à 1000
-        self.group_score = tk.IntVar()
-        self.group_score.set(1000)
 
-    # Création des frames tkinter
+
+        # Création des frames tkinter
     def create_interface(self):
         # Frame HUD au dessus des activités
-        top_frame = tk.Frame(self.root, bg="#f0f0f0")
-        top_frame.pack(side="top", fill="x", padx=20, pady=20)
+        self.top_frame = tk.Frame(self.root, bg="#f0f0f0")
+        self.top_frame.pack(side="top", fill="x", padx=20, pady=20)
 
         # Configure les colonnes : gauche (boutton "quit"), centre (titre), droite (scores)
-        top_frame.grid_columnconfigure(0, weight=0)  # Quit stays left
-        top_frame.grid_columnconfigure(1, weight=1)  # Title expands (center)
-        top_frame.grid_columnconfigure(2, weight=0)  # Scores hug right
-        top_frame.grid_columnconfigure(3, weight=0)
+        self.top_frame.grid_columnconfigure(0, weight=0)  # Quit stays left
+        self.top_frame.grid_columnconfigure(1, weight=1)  # Title expands (center)
+        self.top_frame.grid_columnconfigure(2, weight=0)  # Scores hug right
+        self.top_frame.grid_columnconfigure(3, weight=0)
 
         # "Quit" frame and button
-        quit_frame = tk.Frame(top_frame, bg="#f0f0f0")
+        quit_frame = tk.Frame(self.top_frame, bg="#f0f0f0")
         quit_frame.grid(row=0, column=0, sticky="w", pady=20)
 
         self.quit_btn = tk.Button(quit_frame, text="❌ Quitter le jeu", command=self.root.quit, fg="red")
         self.quit_btn.pack()
 
         # Titre
-        title_label = tk.Label(top_frame, text="🎮 Choisissez votre jeu", font=("Helvetica", 24, "bold"), bg="#f0f0f0")
+        title_label = tk.Label(self.top_frame, text="🎮 Choisissez votre jeu", font=("Helvetica", 24, "bold"), bg="#f0f0f0")
         title_label.grid(row=0, column=1, sticky="n", pady=20)
 
         # Score actuel
-        score_label = tk.Label(top_frame, bg="#f0f0f0", text="Score : ", font=("Helvetica", 24, "bold"))
+
+        score_label = tk.Label(self.top_frame, bg="#f0f0f0", text="Score : ", font=("Helvetica", 24, "bold"))
         score_label.grid(row=0, column=2, sticky="e", padx=5)
-        score_number = tk.Label(top_frame, bg="#f0f0f0", text="1000", font=("Helvetica", 24, "bold"))
-        score_number.grid(row=0, column=3, sticky="w", padx=5)
+        self.score_number = tk.Label(self.top_frame, bg="#f0f0f0",font=("Helvetica", 24, "bold"),textvariable=self.score_var)  # ✅ lié au score_var
+        self.score_number.grid(row=0, column=3, sticky="w", padx=5)
 
         # High score
-        high_score_label = tk.Label(top_frame, bg="#f0f0f0", text="High Score : ", font=("Helvetica", 24, "bold"))
+        high_score_label = tk.Label(self.top_frame, bg="#f0f0f0", text="High Score : ", font=("Helvetica", 24, "bold"))
         high_score_label.grid(row=1, column=2, sticky="e", padx=5)
-        high_score_number = tk.Label(top_frame, bg="#f0f0f0", text="", font=("Helvetica", 24, "bold"))
+        high_score_number = tk.Label(self.top_frame, bg="#f0f0f0", text="", font=("Helvetica", 24, "bold"))
         high_score_number.grid(row=1, column=3, sticky="w", padx=5)
 
         # Boutton Scoreboard
-        scoreboard_btn_frame = tk.Frame(top_frame, bg="#f0f0f0")
+        scoreboard_btn_frame = tk.Frame(self.top_frame, bg="#f0f0f0")
         scoreboard_btn_frame.grid(row=0, column=4, sticky="n", pady=20, padx=50)
 
         self.scoreboard_btn = tk.Button(scoreboard_btn_frame, text="Scoreboard", bg="#FFFDD0", width=20, height=2,
-                                    command=lambda: show_scoreboard(self.root,
-                                    high_scores=[("Team A", 1500), ("Team B", 1200), ("Team C", 1100)],
-                                    group_score=self.group_score.get()),
-                                    fg="#000000")
+                                    command=lambda: show_scoreboard(self.root))
+
+
         self.scoreboard_btn.pack()
 
         main_frame = tk.Frame(self.root, bg="#f0f0f0")
@@ -130,8 +138,35 @@ class ScriptLauncherApp:
         self.content_frame = tk.Frame(main_frame, bg="white", bd=2, relief="sunken")
         self.content_frame.pack(side="left", expand=True, fill="both", padx=10, pady=10)
 
+    # Démarrer le score descendant
+    def start_score_descendant(self):
+        if self.score_job is None:  # seulement si le timer n’est pas actif
+            self._score_tick()
+
+    def _score_tick(self):
+        self.score_var.set(self.start_score)
+        self.start_score -= 1
+        if self.start_score >= 0:
+            self.score_job = self.root.after(1000, self._score_tick)
+
+    # Arrêter le score
+    def stop_score_descendant(self):
+        if self.score_job:
+            self.root.after_cancel(self.score_job)
+            self.score_job = None
+
+    def make_success_callback(self, game_key):
+        def callback():
+            self.games_success[game_key] = True
+            self.stop_score_descendant()  # Stop seulement quand les 3 jeux réussis
+
+        return callback
+
     # Lance le jeu
     def launch_game(self, game_key):
+        if self.score_job is None:  # seulement si aucun timer actif
+            self.start_score_descendant()
+
         if self.current_game_key == game_key:
             return
 
@@ -165,24 +200,45 @@ class ScriptLauncherApp:
             game_frame.pack(fill="both", expand=True)
 
             game_instance = None
+            success_callback = self.make_success_callback(game_key)
 
             # Lance le jeu choisi
             if hasattr(module, "ChronoQuizGame") and game_key == "ChronoQuiz":
-                # Utilise le code généré une fois
-                game_instance = module.ChronoQuizGame(game_frame, generated_words=self.generated_code, group_score=self.group_score)
+                game_instance = module.ChronoQuizGame(
+                    game_frame,
+                    generated_words=self.generated_code,
+                    group_score=self.group_score,
+                    stop_callback=success_callback # ✅ callback pour arrêter le score
+                )
                 game_instance.start()
             elif hasattr(module, "ITQuizGame") and game_key == "IT Quiz":
                 # Même chose ici
-                game_instance = module.ITQuizGame(game_frame, generated_words=self.generated_code, group_score=self.group_score)
+                game_instance = module.ITQuizGame(game_frame, generated_words=self.generated_code, group_score=self.group_score,stop_callback=self.stop_score_descendant)
                 game_instance.start()
+                stop_callback=success_callback
+
             elif hasattr(module, "main"):
                 module.main(game_frame)
             elif hasattr(module, "EnigmesGame") and game_key == "Enigmes":
                 game_instance = module.EnigmesGame(game_frame,correct_words=self.generated_code)
                 game_instance.start()
 
+
             elif hasattr(module, "PuzzleGame") and game_key == "Puzzle":
-                game_instance = module.PuzzleGame(game_frame, correct_password="hardware",generated_words=self.generated_code, group_score=self.group_score)
+
+                game_instance = module.PuzzleGame(
+
+                    game_frame,
+
+                    correct_password="hardware",
+
+                    generated_words=self.generated_code,
+
+                    group_score=self.group_score,
+
+                    stop_callback=success_callback
+                )
+
                 game_instance.start()
             else:
                 messagebox.showerror("Erreur", "Module de jeu incompatible ou introuvable")

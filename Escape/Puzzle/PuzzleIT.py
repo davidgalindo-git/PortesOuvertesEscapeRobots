@@ -10,9 +10,10 @@ if current_dir not in sys.path:
 
 
 class PasswordGame:
-    def __init__(self, parent, correct_password,generated_words=None):
+    def __init__(self, parent, correct_password,generated_words=None, stop_callback=None):
         self.parent = parent
         self.correct_password = correct_password
+
 
         self.frame = tk.Frame(self.parent, bg="white")
 
@@ -33,6 +34,7 @@ class PasswordGame:
 
         self.started = False
         self.generated_words = generated_words
+        self.stop_callback = stop_callback
 
 
     def start(self):
@@ -56,6 +58,8 @@ class PasswordGame:
                 result_text += f"\n\nVoici le Dernier code de l'énigme : {code}"
             self.feedback_label.config(text=result_text, fg="darkgreen")
             self.entry.config(bg="lightgreen")
+            if callable(self.stop_callback):
+                self.stop_callback()
         else:
             result_text = "Mot de passe incorrect.\n\nRéessayez encore !"
             self.feedback_label.config(text=result_text, fg="red")
@@ -68,8 +72,8 @@ class PasswordGame:
 
 
 class PuzzleGame:
-    def __init__(self, parent, correct_password="hardware", generated_words=None,group_score=None):
-        self.game = PasswordGame(parent, correct_password, generated_words=generated_words)
+    def __init__(self, parent, correct_password="hardware", generated_words=None,group_score=None,stop_callback=None):
+        self.game = PasswordGame(parent, correct_password, generated_words=generated_words,stop_callback=stop_callback)
         self.group_score = group_score
 
     def start(self):
