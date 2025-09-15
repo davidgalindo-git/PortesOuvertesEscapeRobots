@@ -22,6 +22,7 @@ class EnigmesGame:
         code2= recuperation_frag(variable.selected_group_id, "fragment2")
         code3= recuperation_frag(variable.selected_group_id, "fragment3")
         self.correct_words = [code1, code2, code3]
+        print(correct_words)
         self.frame = tk.Frame(self.parent, bg="white")
 
 

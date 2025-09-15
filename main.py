@@ -28,7 +28,7 @@ class ScriptLauncherApp:
         # Préparation pour le lancement des fichiers indépendants
         self.scripts = {
             "IT Quiz": {
-                "module_path": os.path.join(self.base_dir, "Escape", "IT_quiz", "It_quiz.py"),
+                "module_path": os.path.join(self.base_dir, "Escape", "IT_quiz", "IT_quiz.py"),
                 "image_path": os.path.join(self.base_dir, "images", "itquiz.jpg")
             },
             "ChronoQuiz": {

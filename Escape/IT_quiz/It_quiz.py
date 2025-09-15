@@ -6,6 +6,9 @@ import random
 import os
 from Admin.gestionsql import recuperation_frag
 import variable
+import time
+
+
 class ITQuizGame:
     def __init__(self, parent, generated_words=None, group_score=None, stop_callback=None):
 
@@ -17,7 +20,13 @@ class ITQuizGame:
         self.generated_words = generated_words
         self.group_score = group_score
 
-        self.final_result_label = tk.Label(self.frame, text="", font=("Helvetica", 14, "bold"), fg="darkgreen",bg="white")
+        self.start_time = None
+        self.timer_id = None
+        self.timer_label = tk.Label(self.frame, text="Time: 00:00", font=("Helvetica", 12), bg="white")
+        self.timer_label.pack(pady=(0, 10))
+
+        self.final_result_label = tk.Label(self.frame, text="", font=("Helvetica", 14, "bold"), fg="darkgreen",
+                                           bg="white")
         self.final_result_label.pack(pady=(10, 5))
 
         csv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "IT_quiz_data.csv")
@@ -55,12 +64,17 @@ class ITQuizGame:
             self.started = True
             self.update_info_label()
             self.display_question()
+            self.start_time = time.time()
+            self.update_timer()
         else:
             self.frame.pack(fill="both", expand=True)
+            self.start_time = time.time()
+            self.update_timer()
 
     def update_info_label(self):
         percent_score = (self.score / len(self.questions)) * 100 if self.questions else 0
-        self.info_label.config(text=f"Score: {self.score}/{len(self.questions)} ({percent_score:.0f}%) | Objectif: {self.success_goal}%")
+        self.info_label.config(
+            text=f"Score: {self.score}/{len(self.questions)} ({percent_score:.0f}%) | Objectif: {self.success_goal}%")
 
     def display_question(self):
         self.answer_var.set("")
@@ -73,6 +87,20 @@ class ITQuizGame:
             self.radio_buttons[i].config(text=f"{key}) {options[key]}")
         self.submit_btn.config(state="normal")
 
+    def update_timer(self):
+        if self.start_time:
+            elapsed_seconds = int(time.time() - self.start_time)
+            minutes = elapsed_seconds // 60
+            seconds = elapsed_seconds % 60
+            time_string = f"Temps: {minutes:02d}:{seconds:02d}"
+            self.timer_label.config(text=time_string)
+            self.timer_id = self.parent.after(1000, self.update_timer)
+
+    def stop_timer(self):
+        if self.timer_id:
+            self.parent.after_cancel(self.timer_id)
+            self.timer_id = None
+
     def submit_answer(self):
         selected = self.answer_var.get()
         if not selected:
@@ -84,7 +112,8 @@ class ITQuizGame:
             self.feedback_label.config(text="Bonne réponse !", fg="green")
         else:
             correct_text = self.questions[self.current_question]["options"][correct]
-            self.feedback_label.config(text=f"Mauvaise réponse. La bonne réponse était: {correct}) {correct_text}", fg="red")
+            self.feedback_label.config(text=f"Mauvaise réponse. La bonne réponse était: {correct}) {correct_text}",
+                                       fg="red")
 
         self.submit_btn.config(state="disabled")
         self.update_info_label()
@@ -98,6 +127,7 @@ class ITQuizGame:
             self.display_question()
 
     def show_result(self):
+        self.stop_timer()
         percent_score = (self.score / len(self.questions)) * 100
         result_text = f"Quiz terminé !\nVotre score: {self.score} sur {len(self.questions)} ({percent_score:.2f}%)."
 
@@ -128,6 +158,9 @@ class ITQuizGame:
         self.submit_btn.config(state="normal")
         self.feedback_label.config(text="")
         self.display_question()
+        self.start_time = time.time()
+        self.update_timer()
+        self.final_result_label.config(text="")
 
     def load_questions_from_csv(self, filename):
         questions = []
