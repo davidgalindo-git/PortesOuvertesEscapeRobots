@@ -1,0 +1,92 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+
+DROP SCHEMA IF EXISTS `groups_po` ;
+
+
+CREATE SCHEMA IF NOT EXISTS `groups_po` DEFAULT CHARACTER SET utf8 ;
+USE `groups_po` ;
+
+DROP TABLE IF EXISTS `groups` ;
+
+CREATE TABLE IF NOT EXISTS `groups` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `group_name` VARCHAR(100) NOT NULL,
+  `code` VARCHAR(9) NOT NULL,
+  `score` INT,
+  `Date_score` DATETIME,
+  PRIMARY KEY (`id`))
+
+ENGINE = INNODB;
+
+DROP TABLE IF EXISTS `members` ;
+
+CREATE TABLE IF NOT EXISTS `members` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`))
+
+ENGINE = INNODB;
+
+
+DROP TABLE IF EXISTS `members_in_groups`;
+
+CREATE TABLE IF NOT EXISTS `members_in_groups` (
+  `id_group` INT NOT NULL,
+  `id_member` INT NOT NULL,
+  PRIMARY KEY (`id_group`, `id_member`),
+  INDEX `idx_member` (`id_member` ASC),
+  CONSTRAINT `fk_group`
+    FOREIGN KEY (`id_group`)
+    REFERENCES `groups_po`.`groups` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_member`
+    FOREIGN KEY (`id_member`)
+    REFERENCES `groups_po`.`members` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+DROP TABLE IF EXISTS `fragment1`;
+
+CREATE TABLE IF NOT EXISTS `fragment1` (
+  `id_group` INT NOT NULL,
+  `frag` VARCHAR(3) NOT NULL,
+  CONSTRAINT `fk_groupfrag1`
+    FOREIGN KEY (`id_group`)
+    REFERENCES `groups_po`.`groups` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = INNODB;
+
+DROP TABLE IF EXISTS `fragment2`;
+
+CREATE TABLE IF NOT EXISTS `fragment2` (
+  `id_group` INT NOT NULL,
+  `frag` VARCHAR(3) NOT NULL,
+  CONSTRAINT `fk_groupfrag2`
+    FOREIGN KEY (`id_group`)
+    REFERENCES `groups_po`.`groups` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = INNODB;
+
+DROP TABLE IF EXISTS `fragment3`;
+
+CREATE TABLE IF NOT EXISTS `fragment3` (
+  `id_group` INT NOT NULL,
+  `frag` VARCHAR(3) NOT NULL,
+  CONSTRAINT `fk_groupfrag3``groups`
+    FOREIGN KEY (`id_group`)
+    REFERENCES `groups_po`.`groups` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = INNODB;

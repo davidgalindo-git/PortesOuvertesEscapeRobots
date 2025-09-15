@@ -1,0 +1,102 @@
+id,question,answer a,answer b,answer c,answer d,right answer
+1,Quelle est la signification de l'acronyme "HTTP" ?,HyperText Transfer Protocol,HyperText Transmission Protocol,HyperText Transfer Procedure,HighText Transfer Protocol,a
+2,Quel composant est considéré comme le "cerveau" de l'ordinateur ?,Le disque dur,Le processeur,La mémoire RAM,La carte graphique,b
+3,Quel système d'exploitation est développé par Microsoft ?,Linux,MacOS,Windows,Android,c
+4,Lequel de ces langages est un langage de programmation ?,HTML,HTTP,Java,CSS,c
+5,Qu'est-ce qu'un "navigateur" ?,Un logiciel pour imprimer,Un logiciel pour accéder à Internet,Un type de virus,Une carte réseau,b
+6,Quel protocole est utilisé pour envoyer des emails ?,FTP,SMTP,HTTP,TCP,b
+7,Quelle unité mesure la vitesse de transmission des données ?,Octet,Gigahertz,Bit par seconde,Mètre,c
+8,Que signifie l’acronyme "USB" ?,Universal Serial Bus,Universal System Bus,Uniform Serial Bus,Unified System Bus,a
+9,Quel est le principal langage utilisé pour la création de pages web statiques ?,CSS,HTML,Python,Java,b
+10,Quel dispositif est utilisé pour connecter un ordinateur à un réseau local ?,Modem,Routeur,Switch,Clavier,c
+11,Quel système de fichiers est couramment utilisé sous Windows ?,EXT4,NTFS,FAT32,HFS+,b
+12,Quelle commande Linux permet de lister les fichiers d'un dossier ?,ls,dir,list,show,a
+13,Quel est l'objectif principal du "cloud computing" ?,Stocker les données localement,Calculer rapidement,Offrir des services via Internet,Améliorer la vitesse du processeur,c
+14,Qu’est-ce qu’un "firewall" ?,Un pare-feu logiciel ou matériel,Un virus dangereux,Un protocole réseau,Un type de câble,a
+15,Quel est le langage principalement utilisé pour le développement d'applications Android ?,Java,C#,Swift,Objective-C,a
+16,Quelle est l'abréviation de "CPU" ?,Central Process Unit,Central Processing Unit,Computer Power Unit,Control Processing Unit,b
+17,Quelle technologie permet la connexion sans fil à Internet ?,Bluetooth,Wi-Fi,Ethernet,USB,b
+18,Lequel de ces éléments est un système de gestion de base de données ?,MySQL,HTML,CSS,JavaScript,a
+19,Quel type de mémoire est volatile ?,Disque dur,ROM,RAM,Clé USB,c
+20,Quel protocole est utilisé pour sécuriser la navigation sur un site web ?,HTTP,HTTPs,FTP,SMTP,b
+21,Que signifie l'acronyme "IP" en réseau informatique ?,Internet Provider,Internet Protocol,Internal Protocol,Internet Port,b
+22,Quel est le nom du langage de script principalement utilisé pour le développement web côté client ?,Python,JavaScript,C++,Java,b
+23,Laquelle de ces extensions de fichier correspond à un fichier image ?,.txt,.exe,.jpg,.docx,c
+24,Qu’est-ce qu’un "cookie" en informatique ?,Un virus,Un petit programme stocké par le navigateur,Une mesure de performance,Une partie du disque dur,b
+25,Quelle entreprise développe le système d'exploitation macOS ?,Microsoft,Apple,Google,IBM,b
+26,Quelle est la fonction principale d’un "routeur" ?,Stocker des données,Créer un réseau,Diriger le trafic entre réseaux,Imprimer des documents,c
+27,Quelle est la vitesse d'un réseau Ethernet standard ?,10 Mbps,100 Mbps,1 Gbps,10 Gbps,b
+28,Qu’est-ce qu’un "logiciel open source" ?,Un logiciel gratuit,Un logiciel payant,Un logiciel dont le code est accessible au public,Un logiciel piraté,c
+29,Quelle est la principale fonction d’un "serveur" ?,Fournir des ressources et services à d'autres ordinateurs,Stocker les fichiers personnels,Protéger contre les virus,Gérer les impressions,a
+30,Quel langage est couramment utilisé pour la programmation scientifique ?,Java,C++,Python,Ruby,c
+31,Quel composant d’ordinateur stocke les données à long terme ?,Disque dur,Processeur,Carte graphique,RAM,a
+32,Qu'est-ce que le "phishing" ?,Une technique de piratage par hameçonnage,Un type de malware,Un protocole réseau,Un logiciel antivirus,a
+33,Lequel de ces langages est utilisé pour styliser les pages Web ?,HTML,JavaScript,CSS,Python,c
+34,Quel périphérique est utilisé pour convertir un signal numérique en signal analogique ?,Modem,Routeur,Switch,Scanner,a
+35,Quelle entreprise est connue pour son moteur de recherche "Google" ?,Microsoft,Apple,Google,Amazon,c
+36,Quel est le nom du célèbre système d’exploitation libre basé sur Linux ?,Windows,Ubuntu,macOS,Android,b
+37,Quel est le nom du premier ordinateur personnel commercialisé par IBM ?,IBM PC XT,IBM PC,IBM PC AT,IBM System 360,b
+38,Que signifie "RAM" ?,Read Access Memory,Random Access Memory,Read Access Module,Random Access Module,b
+39,Que signifie "URL" ?,Uniform Resource Locator,Universal Resource Locator,Uniform Reference Locator,Universal Reference Locator,a
+40,Quel est le type de logiciel dont le code source est privé ?,Logiciel propriétaire,Logiciel libre,Logiciel open source,Logiciel gratuit,a
+41,À quoi sert un "proxy" ?,À cacher son IP,À graver un CD,À optimiser l'affichage,À télécharger des fichiers,a
+42,Que signifie "DNS" ?,Domain Name System,Distributed Network System,Domain Numbering Service,Digital Name Service,a
+43,Quel langage est principalement utilisé pour développer des applications iOS ?,Swift,Java,Python,C#,a
+44,Dans quel modèle de réseau l'architecture client-serveur est-elle utilisée ?,TCP/IP,Peer-to-peer,OSI,HTTP,a
+45,Quel logiciel est un système de gestion de contenu (CMS) populaire ?,WordPress,Photoshop,Visual Studio,Excel,a
+46,Quelle couche dans le modèle OSI est responsable de l'acheminement des paquets ?,Couche physique,Couche réseau,Couche session,Couche application,b
+47,Quel matériel est nécessaire pour imprimer un document ?,Scanner,Imprimante,Disque dur,Clavier,b
+48,Quel format de fichier est utilisé pour les feuilles de style ?,.html,.css,.js,.exe,b
+49,Quel est l’acronyme de "VPN" ?,Virtual Private Network,Variable Public Network,Virtual Public Network,Variable Private Network,a
+50,Quel composant d'ordinateur est responsable du rendu graphique ?,Processeur,Carte graphique,RAM,Disque dur,b
+51;Quel périphérique permet d’entrer du texte dans un ordinateur ?;Écran;Souris;Clavier;Imprimante;C
+52;Que signifie l’abréviation "PDF" ?;Portable Document Format;Public Data File;Programmed Data Form;Page Description File;A
+53;Quel type de logiciel est Microsoft Word ?;Navigateur web;Traitement de texte;Base de données;Tableur;B
+54;Qu'est-ce qu'un fichier exécutable sous Windows ?;.docx;.exe;.jpg;.mp3;B
+55;Quel composant permet d’afficher l’image générée par un ordinateur ?;Clavier;Écran;Souris;Boîtier;B
+56;Que permet de faire un logiciel antivirus ?;Créer des virus;Envoyer des e-mails;Protéger contre les menaces;Améliorer les graphiques;C
+57;Quel est le rôle d’un système d’exploitation ?;Éteindre l’ordinateur;Gérer les ressources matérielles et logicielles;Afficher des vidéos;Faire des sauvegardes;B
+58;Qu’est-ce qu’une adresse e-mail ?;Un mot de passe;Un lien vers un site web;Une adresse IP;Une adresse électronique personnelle;D
+59;Quel appareil peut être utilisé pour faire une vidéoconférence ?;Clé USB;Caméra web;Routeur;Scanner;B
+60;Quel outil permet de créer des calculs automatisés dans un tableau ?;Paint;Word;Excel;Bloc-notes;C
+61;Quel est le rôle principal d’un disque dur ?;Afficher les images;Connecter à Internet;Stocker les données;Protéger contre les virus;C
+62;Que signifie "logiciel" ?;Un périphérique externe;Une application installée sur un ordinateur;Une pièce de matériel;Une extension de navigateur;B
+63;Quel périphérique permet de déplacer un curseur à l’écran ?;Clavier;Souris;Écran;Imprimante;B
+64;Quel format de fichier est associé à la musique ?;.mp3;.txt;.pdf;.png;A
+65;Quel outil permet de compresser des fichiers ?;Excel;WinRAR;Paint;Firefox;B
+66;Qu’est-ce qu’un lien hypertexte ?;Une adresse physique;Un bouton sur un clavier;Une connexion entre pages web;Un logiciel de traitement;C
+67;Quel logiciel est utilisé pour naviguer sur Internet ?;Chrome;Word;Excel;Photoshop;A
+68;Quelle action est réalisée avec la commande "copier-coller" ?;Déplacer un fichier;Dupliquer un contenu;Supprimer un fichier;Créer un raccourci;B
+69;Quel est le rôle du mot de passe sur un compte en ligne ?;Accélérer la connexion;Empêcher la publicité;Sécuriser l’accès;Modifier le design;C
+70;Que se passe-t-il quand on vide la corbeille d’un ordinateur ?;Les fichiers sont déplacés;Les fichiers sont compressés;Les fichiers sont définitivement supprimés;Les fichiers sont envoyés en ligne;C
+71;Que signifie "bit" en informatique ?;Une erreur système;Une unité de données;Un langage de programmation;Un type de virus;B
+72;À quoi sert un identifiant de connexion ?;À décorer un site web;À choisir une adresse IP;À reconnaître un utilisateur;À protéger contre les virus;C
+73;Quel format est souvent utilisé pour les vidéos ?;.mp4;.doc;.csv;.zip;A
+74;Quelle est l’action de démarrer un ordinateur ?;Le formater;L’éteindre;L’allumer et charger le système;Changer le clavier;C
+75;Que permet la fonction "Enregistrer sous" ?;Fermer un document;Changer le nom ou l’emplacement du fichier;Imprimer un fichier;Ouvrir un site web;B
+76;Qu’est-ce qu’un "périphérique" en informatique ?;Un virus;Une adresse IP;Un équipement connecté à l’ordinateur;Une application mobile;C
+77;Quel est le principal danger des pièces jointes dans un e-mail suspect ?;Elles peuvent ralentir Internet;Elles contiennent souvent des publicités;Elles peuvent contenir des virus;Elles modifient la connexion Wi-Fi;C
+78;Qu'est-ce que le "bureautique" ?;Le matériel réseau;Les logiciels de sécurité;Les outils de traitement de documents;Les périphériques d'affichage;C
+79;Qu’est-ce qu’un raccourci sur le bureau de Windows ?;Une image;Une copie d’un fichier;Un accès rapide à un fichier ou programme;Une extension réseau;C
+80;Quel est l’outil utilisé pour écrire du code informatique ?;Tableur;Navigateur;Éditeur de texte;Lecteur vidéo;C
+81;Qu'est-ce qu'une "session" sur un ordinateur ?;Une impression;Une mise à jour;Une période d'utilisation liée à un utilisateur;Un logiciel graphique;C
+82;Quelle est la première chose à faire si un ordinateur ne démarre pas ?;Appuyer sur Échap;Le mettre dans un congélateur;Vérifier s’il est branché;Changer le fond d’écran;C
+83;Que permet un tableau dans Excel ?;Dessiner des images;Programmer un jeu;Organiser et calculer des données;Regarder des vidéos;C
+84;Qu’est-ce qu’un "clic droit" ?;Un double clic rapide;Un clic sur le bouton droit de la souris;Un clic sur l'écran;Une commande vocale;B
+85;Qu’est-ce qu’une imprimante multifonction ?;Une imprimante qui imprime uniquement;Une imprimante qui lit des CD;Une imprimante avec scanner et photocopie;Une imprimante connectée à Internet;C
+86;Que signifie l’abréviation "JPEG" ?;Java Program Encoding Grid;Joint Photographic Experts Group;Java Page Executable Grid;Joint Page Extension Generator;B
+87;Quelle est la touche permettant d’annuler une action dans beaucoup de logiciels ?;Entrée;F5;Ctrl+Z;Ctrl+P;C
+88;Qu’est-ce qu’une mise à jour logicielle ?;Un changement de fond d’écran;Un changement d’ordinateur;Un ajout ou une correction du logiciel;Un nettoyage du disque dur;C
+89;Quel appareil est utilisé pour digitaliser un document papier ?;Imprimante;Scanner;Modem;Clavier;B
+90;Qu'est-ce que le "pavé numérique" ?;Une application de calcul;Une extension de souris;Une zone du clavier pour les chiffres;Un écran tactile;C
+91;Que fait un logiciel de compression ?;Augmente la taille d’un fichier;Modifie le contenu du fichier;Réduit la taille d’un fichier;Protège par mot de passe;C
+92;Quelle extension est généralement associée aux fichiers PowerPoint ?;.ppt;.doc;.xls;.pdf;A
+93;Qu’est-ce qu’une "fenêtre" dans un système d’exploitation ?;Un composant matériel;Un programme en ligne;Une interface graphique affichant une application;Un virus visuel;C
+94;Quel est l’usage principal du menu "Démarrer" sous Windows ?;Éteindre l’écran;Changer de langue;Accéder aux programmes et paramètres;Lancer une imprimante;C
+95;Quel outil permet de naviguer dans les fichiers sur un ordinateur Windows ?;Bloc-notes;Explorateur de fichiers;Paint;Calculatrice;B
+96;Quel est le rôle de la RAM dans un ordinateur ?;Stocker les données à long terme;Exécuter temporairement les données en cours d’utilisation;Afficher les graphiques;Connecter les périphériques;B
+97;Comment appelle-t-on un fichier contenant un ensemble d’instructions qu’un ordinateur peut exécuter ?;Image;Vidéo;Script;Texte;C
+98;Qu’est-ce que le Bluetooth ?;Un langage de programmation;Un système d’exploitation;Une technologie de communication sans fil;Une extension de fichier;C
+99;Quel est le rôle d’un câble HDMI ?;Connecter une souris;Charger l’ordinateur;Transmettre audio et vidéo;Imprimer des documents;C
+100;Quel logiciel permet de créer des documents texte avec mise en page ?;Excel;Word;Paint;Bloc-notes;B
+101;Quel est la particularité du language binaire?;cela s'écrit à l'envers;c'est le language de MR.Bean;c'est un language pour communiquer avec les serveurs;Qui va de 0 à 1;D
