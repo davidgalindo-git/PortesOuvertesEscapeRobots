@@ -19,6 +19,7 @@ class ITQuizGame:
         self.success_goal = 33.33
         self.generated_words = generated_words
         self.group_score = group_score
+        self.stop_callback = stop_callback
 
         self.start_time = None
         self.timer_id = None
@@ -133,8 +134,9 @@ class ITQuizGame:
 
         if percent_score >= self.success_goal:
             result_text += "\n\nFélicitations, vous avez atteint l'objectif !"
-            code = recuperation_frag(variable.selected_group_id, "fragment1")
+            # Code de l'énigme si généré
             if self.generated_words:
+                code = recuperation_frag(variable.selected_group_id, "fragment1")
                 result_text += f"\n\nVoici le Premier code de l'énigme : {code}"
         else:
             result_text += "\n\nVous n'avez pas atteint l'objectif. Bonne chance la prochaine fois !"
@@ -144,10 +146,8 @@ class ITQuizGame:
             fg="darkgreen" if percent_score >= self.success_goal else "red"
         )
 
-        # ✅ Stop le score descendant si callback défini
-        if self.group_score and hasattr(self.group_score, "set"):
-            pass  # tu gardes ton score de groupe si tu veux
-        if hasattr(self, "stop_callback") and self.stop_callback:
+        # ✅ Ici on appelle le stop_callback si défini
+        if self.stop_callback:
             self.stop_callback()
 
     def restart_quiz(self):

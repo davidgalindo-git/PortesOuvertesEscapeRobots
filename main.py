@@ -164,7 +164,11 @@ class ScriptLauncherApp:
 
     # Lance le jeu
     def launch_game(self, game_key):
-        if self.score_job is None:  # seulement si aucun timer actif
+        jeux_avec_score = ["IT Quiz", "ChronoQuiz", "Puzzle"]
+
+        # Ne démarre le score que si le jeu fait partie de ceux avec score
+        # et qu'il n'a pas encore été réussi
+        if self.score_job is None and game_key in jeux_avec_score and not self.games_success[game_key]:
             self.start_score_descendant()
 
         if self.current_game_key == game_key:
@@ -212,10 +216,14 @@ class ScriptLauncherApp:
                 )
                 game_instance.start()
             elif hasattr(module, "ITQuizGame") and game_key == "IT Quiz":
-                # Même chose ici
-                game_instance = module.ITQuizGame(game_frame, generated_words=self.generated_code, group_score=self.group_score,stop_callback=self.stop_score_descendant)
+                success_callback = self.make_success_callback("IT Quiz")  # crée le callback
+                game_instance = module.ITQuizGame(
+                    game_frame,
+                    generated_words=self.generated_code,
+                    group_score=self.group_score,
+                    stop_callback=success_callback  # passe le callback correct
+                )
                 game_instance.start()
-                stop_callback=success_callback
 
             elif hasattr(module, "main"):
                 module.main(game_frame)
