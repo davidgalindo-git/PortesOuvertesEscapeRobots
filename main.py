@@ -15,7 +15,7 @@ from Escape.Enigme.codes import main as get_generated_words
 import os
 import importlib.util
 import sys
-from Admin.gestionsql import identification, create_group,get_all_group_names
+from Admin.gestionsql import identification, create_group,get_groups_with_scores,validation_code
 from Escape.scoreboard import show_scoreboard
 import variable
 class ScriptLauncherApp:
@@ -108,11 +108,16 @@ class ScriptLauncherApp:
         scoreboard_btn_frame = tk.Frame(self.top_frame, bg="#f0f0f0")
         scoreboard_btn_frame.grid(row=0, column=4, sticky="n", pady=20, padx=50)
 
-        self.scoreboard_btn = tk.Button(scoreboard_btn_frame, text="Scoreboard", bg="#FFFDD0", width=20, height=2,
-                                    command=lambda: show_scoreboard(self.root))
 
+        self.scoreboard_btn = tk.Button(scoreboard_btn_frame, text="Scoreboard", bg="#FFFDD0", width=20, height=2,
+                                        command=lambda: show_scoreboard(self.root,
+                                        high_scores=get_groups_with_scores(),
+                                        group_score=self.group_score.get()
+                                        ),
+                                        fg="#000000")
 
         self.scoreboard_btn.pack()
+        print(get_groups_with_scores())
 
         main_frame = tk.Frame(self.root, bg="#f0f0f0")
         main_frame.pack(expand=True, fill="both")
@@ -293,6 +298,7 @@ def show_final_scores(self):
     tk.Button(score_frame, text="Retour au menu principal", command=self.return_to_menu, font=("Helvetica", 12)).pack(pady=20)
 
 
+
 class LoginFrame(tk.Frame):
     def __init__(self, root, on_login_success):
         super().__init__(root)
@@ -307,12 +313,16 @@ class LoginFrame(tk.Frame):
                   command=self.verify_group, bg="green", fg="white").pack(pady=10)
 
         def creer():
-            name = self.entry_group.get()
-            print(name)
-            create_group(name)
-            self.on_login_success()
-
-
+            name = self.entry_group.get().strip()
+            if not name:
+                self.status_label.config(text="Saisir un nom de groupe")
+                return
+            gid = create_group(name)
+            if gid:
+                variable.selected_group_id = gid  # <-- IMPORTANT
+                self.on_login_success()
+            else:
+                self.status_label.config(text="Erreur création groupe")
 
         tk.Button(self, text="Nouveau Groupe",font=("Arial", 16), command=creer, bg="blue", fg="white").pack(pady=10)
 

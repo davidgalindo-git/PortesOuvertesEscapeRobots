@@ -7,7 +7,7 @@ def open_db():
             host='127.0.0.1',
             port='3306',
             user='root',
-            password='UCH1H4_N1GHTabcd',
+            password='root',
             database="groups_po"
         )
         return conn
@@ -32,9 +32,9 @@ def create_group(group_name):
 
         print(f"Code généré : {code}")
 
-        # Insertion du groupe
-        sql = "INSERT INTO `groups` (group_name, code) VALUES (%s, %s)"
-        cursor.execute(sql, (group_name, code))
+        # Insertion du groupe (score initialisé à 0)
+        sql = "INSERT INTO `groups` (group_name, code, score) VALUES (%s, %s, %s)"
+        cursor.execute(sql, (group_name, code, 0))
         conn.commit()
 
         # Récupérer l'ID du groupe inséré
@@ -53,6 +53,8 @@ def create_group(group_name):
 
         print("Groupe et fragments créés avec succès.")
 
+        return group_id  # on retourne l'id du groupe
+
     except mysql.connector.Error as err:
         print(f"Erreur SQL : {err}")
     finally:
@@ -61,12 +63,13 @@ def create_group(group_name):
 
 def read_data():
     conn = open_db()
-
     cursor = conn.cursor(buffered=True)
-
     sql = "SELECT * FROM `groups`"
     cursor.execute(sql)
-    return cursor.fetchall()
+    rows = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return rows
 
 def identification(identity):
     conn = open_db()
@@ -78,11 +81,9 @@ def identification(identity):
     conn.close()
     return result[0] if result else None
 
-
 def recuperation_frag(groupe_id, fragment):
     conn = open_db()
     cursor = conn.cursor(buffered=True)
-
     sql = f"SELECT frag FROM {fragment} WHERE id_group = %s"
     cursor.execute(sql, (groupe_id,))
     result = cursor.fetchone()
@@ -93,9 +94,8 @@ def recuperation_frag(groupe_id, fragment):
 def recuperation_score(groupe_id):
     conn = open_db()
     cursor = conn.cursor()
-
-    sql = f"SELECT score FROM `groups` WHERE id = %s"
-    cursor.execute(sql, (groupe_id))
+    sql = "SELECT score FROM `groups` WHERE id = %s"
+    cursor.execute(sql, (groupe_id,))
     result = cursor.fetchone()
     cursor.close()
     conn.close()
@@ -104,22 +104,34 @@ def recuperation_score(groupe_id):
 def new_score(groupe_id, score):
     conn = open_db()
     cursor = conn.cursor()
-
-    sql = (f"UPDATE `groups` SET `score` = {score}, `date_score` = NOW() WHERE id = {groupe_id};")
-    cursor.execute(sql, (groupe_id))
-    result = cursor.fetchone()
+    sql = "UPDATE `groups` SET score = %s WHERE id = %s"
+    cursor.execute(sql, (score, groupe_id))
+    conn.commit()
     cursor.close()
     conn.close()
-    return result[0] if result else None
+    return score
 
-def get_all_group_names():
+def get_groups_with_scores():
     conn = open_db()
     cursor = conn.cursor()
-    cursor.execute("SELECT name FROM groups")
-    results = cursor.fetchall()  # → [("Team A",), ("Team B",), ...]
+    cursor.execute("SELECT group_name, score FROM `groups` ORDER BY score DESC LIMIT 1000")
+    results = cursor.fetchall()  # [(nom, score), ...]
+    cursor.close()
     conn.close()
-    # On transforme en liste simple
-    return [row[0] for row in results]
+    return results
 
+def validation_code(groupe_id,frag1_input,frag2_input,frag3_input,points=10):
+    """Valide le code entré par le groupe et met à jour le score"""
+    f1 = recuperation_frag(groupe_id,"fragment1")
+    f2 = recuperation_frag(groupe_id,"fragment2")
+    f3 = recuperation_frag(groupe_id,"fragment3")
 
-
+    if (frag1_input ==f1 ) and (frag2_input ==f2 ) and (frag3_input ==f3):
+        # Code correct → ajouter des points
+        current_score = recuperation_score(groupe_id) or 0
+        new_total = current_score + points
+        new_score(groupe_id, new_total)
+        return True, new_total
+    else:
+        # Code incorrect
+        return False,recuperation_score(groupe_id)

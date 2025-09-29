@@ -2,7 +2,7 @@ import tkinter as tk
 import sys
 import os
 import variable
-from Admin.gestionsql import  recuperation_frag
+from Admin.gestionsql import  recuperation_frag,validation_code
 
 # Chemin vers le dossier où se trouve codes.py (même dossier que enigme.py)
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -59,20 +59,31 @@ class EnigmesGame:
         self.reset_game()
 
     def validate_entries(self):
-        all_correct = True
-        for i in range(3):
-            user_input = self.entries[i].get().strip().upper()
-            if user_input == self.correct_words[i].upper():
-                self.entries[i].config(bg="lightgreen")
-            else:
-                self.entries[i].config(bg="tomato")
-                all_correct = False
+        frag1 = self.entries[0].get().strip()
+        frag2 = self.entries[1].get().strip()
+        frag3 = self.entries[2].get().strip()
 
-        if all_correct:
-            self.feedback_label.config(text="Bravo ! Vous avez trouvé toutes les pièces.", fg="green")
+        ok, score = validation_code(variable.selected_group_id, frag1, frag2, frag3, points=50)
+
+        if ok:
+            for entry in self.entries:
+                entry.config(bg="lightgreen")
+            self.feedback_label.config(
+                text=f"Bravo 🎉 ! Vous avez trouvé toutes les pièces.\nNouveau score : {score}",
+                fg="green"
+            )
         else:
-            self.feedback_label.config(text="Certaines réponses sont incorrectes. Réessayez.", fg="red")
+            # Colorer en vert ceux qui sont bons, en rouge ceux qui sont faux
+            for i, entry in enumerate(self.entries):
+                if entry.get().strip().upper() == self.correct_words[i].upper():
+                    entry.config(bg="lightgreen")
+                else:
+                    entry.config(bg="tomato")
 
+            self.feedback_label.config(
+                text="Certaines réponses sont incorrectes ❌. Réessayez.",
+                fg="red"
+            )
     def reset_game(self):
         for entry in self.entries:
             entry.delete(0, tk.END)
