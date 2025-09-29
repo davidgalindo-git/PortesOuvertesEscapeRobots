@@ -185,12 +185,13 @@ class ChronoQuizGame:
 
                 correct = False
         if correct:
+            if self.stop_callback:
+                self.stop_callback()
             messagebox.showinfo("Bravo", "Toutes les réponses sont correctes !")
             if self.generated_words and len(self.generated_words) > 1:
                 code = recuperation_frag(variable.selected_group_id, "fragment2")
                 messagebox.showinfo("Code", f"Voici le 2 ème code de l'énigme : {code}")
-            if self.stop_callback:
-                self.stop_callback()
+
         else:
             messagebox.showwarning("Erreur", "Certaines réponses sont incorrectes.")
             self.word_label.config(text="")  # Cacher si mauvaise réponse
