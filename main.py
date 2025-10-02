@@ -163,7 +163,7 @@ class ScriptLauncherApp:
     def make_success_callback(self, game_key):
         def callback():
             self.games_success[game_key] = True
-            self.stop_score_descendant()  # Stop seulement quand les 3 jeux réussis
+            self.stop_score_descendant()# Stop seulement quand les 3 jeux réussis
 
         return callback
 
@@ -233,7 +233,7 @@ class ScriptLauncherApp:
             elif hasattr(module, "main"):
                 module.main(game_frame)
             elif hasattr(module, "EnigmesGame") and game_key == "Enigmes":
-                game_instance = module.EnigmesGame(game_frame,correct_words=self.generated_code)
+                game_instance = module.EnigmesGame(game_frame,correct_words=self.generated_code,group_score=self.group_score)
                 game_instance.start()
 
 

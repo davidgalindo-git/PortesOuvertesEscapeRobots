@@ -120,7 +120,7 @@ def get_groups_with_scores():
     conn.close()
     return results
 
-def validation_code(groupe_id,frag1_input,frag2_input,frag3_input,points=10):
+def validation_code(groupe_id,frag1_input,frag2_input,frag3_input,final_score):
     """Valide le code entré par le groupe et met à jour le score"""
     f1 = recuperation_frag(groupe_id,"fragment1")
     f2 = recuperation_frag(groupe_id,"fragment2")
@@ -128,10 +128,8 @@ def validation_code(groupe_id,frag1_input,frag2_input,frag3_input,points=10):
 
     if (frag1_input ==f1 ) and (frag2_input ==f2 ) and (frag3_input ==f3):
         # Code correct → ajouter des points
-        current_score = recuperation_score(groupe_id) or 0
-        new_total = current_score + points
-        new_score(groupe_id, new_total)
-        return True, new_total
+        new_score(groupe_id,final_score)
+        return True, final_score
     else:
         # Code incorrect
         return False,recuperation_score(groupe_id)
