@@ -112,8 +112,9 @@ class ITQuizGame:
             self.score += 1
             self.feedback_label.config(text="Bonne réponse !", fg="green")
         else:
+            self.group_score.set(self.group_score.get() - 100)
             correct_text = self.questions[self.current_question]["options"][correct]
-            self.feedback_label.config(text=f"Mauvaise réponse. La bonne réponse était: {correct}) {correct_text}",
+            self.feedback_label.config(text=f"Mauvaise réponse. La bonne réponse était: {correct}) {correct_text}.\n-100 points",
                                        fg="red")
 
         self.submit_btn.config(state="disabled")
