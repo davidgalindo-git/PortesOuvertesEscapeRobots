@@ -164,6 +164,7 @@ class ChronoQuizGame:
     #Fonction pour vérifier si le quiz est correcte ou est faux
     def verifier(self):
         correct = True
+        reponses_incorrectes = 0
         for i, zone in enumerate(self.zones):
             trouve = None
             for label in self.etiquettes:
@@ -180,10 +181,18 @@ class ChronoQuizGame:
 
                     # Supprimer la zone associée car ce n'est pas la bonne
                     delattr(trouve, "zone_associee")
-
-
-
+                reponses_incorrectes += 1
                 correct = False
+
+        if reponses_incorrectes > 0:
+            penalite = 50 * reponses_incorrectes
+            if self.group_score is not None:
+                current_score = self.group_score.get()
+                new_score = max(0, current_score - penalite)
+                self.group_score.set(new_score)
+            messagebox.showwarning("Erreur", f"{reponses_incorrectes} mauvaise(s) réponse(s).\n-{penalite} points.")
+            self.word_label.config(text="")  # Cacher si mauvaise réponse
+
         if correct:
             if self.stop_callback:
                 self.stop_callback()
@@ -191,11 +200,6 @@ class ChronoQuizGame:
             if self.generated_words and len(self.generated_words) > 1:
                 code = recuperation_frag(variable.selected_group_id, "fragment2")
                 messagebox.showinfo("Code", f"Voici le 2 ème code de l'énigme : {code}")
-
-        else:
-            messagebox.showwarning("Erreur", "Certaines réponses sont incorrectes.")
-            self.word_label.config(text="")  # Cacher si mauvaise réponse
-         # **Appel du callback pour arrêter le score descendant**
 
     #Fonction pour recommencer le quiz et remet les widgets à leur place initiale
     def recommencer(self):
