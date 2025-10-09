@@ -48,8 +48,7 @@ class ScriptLauncherApp:
         self.loaded_images = {}
         self.games_instances = {}
         self.current_game_key = None
-        self.start_score = 1000
-        self.score_var = tk.IntVar(value=self.start_score)
+        self.score_var = tk.IntVar(value=1000)
         self.score_job = None
         self.group_score = self.score_var  # pour passer facilement aux jeux
         self.generated_code = get_generated_words()
@@ -149,9 +148,9 @@ class ScriptLauncherApp:
             self._score_tick()
 
     def _score_tick(self):
-        self.score_var.set(self.start_score)
-        self.start_score -= 1
-        if self.start_score >= 0:
+        current = self.score_var.get()
+        if current > 0:
+            self.score_var.set(current - 1)
             self.score_job = self.root.after(1000, self._score_tick)
 
     # Arrêter le score
